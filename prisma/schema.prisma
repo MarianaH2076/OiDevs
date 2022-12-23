@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+//mapeamento do bd!
+//onde definimos as entidades da nossa aplicação
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+//criação do modelo de produto
+model Product {
+  id          String     @id
+  author      String
+  name        String
+  price       Int
+  itens       ItensCompra[]
+}
+
+//criação do modelo de usuário
+model User {
+  id          String      @id
+  email       String
+  name        String
+  itens       Cart[]
+}
+
+//criação do carrinho de compras
+model Cart{
+  id          String @id
+  valorTotal  Decimal
+  itens       ItensCompra[]
+  user        User @relation(fields: [userId], references: [id])
+  userId      String
+}
+
+model ItensCompra{
+  id          Int @id @default(autoincrement())
+  cartId      String
+  cart        Cart @relation(fields: [cartId], references: [id])
+  productId   String
+  product     Product @relation(fields: [productId], references: [id])
+  qtd         Int
+  // user        User @relation(fields: [userId], references: [id])
+  // userId      String
+}
