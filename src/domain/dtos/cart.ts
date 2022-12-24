@@ -1,6 +1,12 @@
-import { ItensDto } from "./itens";
+interface itensCompraDto{
+    productId: string,
+    amount: number,
+    unitValue: number
+}
 
 export interface CartDto{
+    id: string,
     userId: string,
-    itens: ItensDto[]
+    // unitValue: number,
+    itens: itensCompraDto[]
 }
